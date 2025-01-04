@@ -1,5 +1,5 @@
 # strftime.php
-Polyfill for the strftime function that was deprecated in PHP 8.1.0
+Polyfill for the `strftime` function that was deprecated in PHP 8.1.0
 
 The goal was to replace the `strftime` function with an equivalent that offers close to zero friction. The alternative offered by current versions of PHP is unnecessarily complicated and object-oriented. Date formatting should be simple and procedural.
 
