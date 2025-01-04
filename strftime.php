@@ -17,12 +17,18 @@
         'weekdaysFull'=>array('monday','tuesday','wednesday','thursday','friday','saturday','sunday'),
         'monthsShort'=>array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'),
         'monthsFull'=>array('january','february','march','april','may','june','july','august','september','october','november','december'),
+        'localTime'=>'%I:%M:%S %p',
+        'localDate'=>'%m/%d/%Y',
+        'localDateTime'=>'%a %d %b %Y %I:%M:%S %p %Z',
       ),
       'ro'=>array(
         'weekdaysShort'=>array('lu','ma','mi','jo','vi','sb','du'),
         'weekdaysFull'=>array('luni','marți','miercuri','joi','vineri','sâmbătă','duminică'),
         'monthsShort'=>array('ian','feb','mar','apr','mai','iun','iul','aug','sep','oct','noi','dec'),
         'monthsFull'=>array('ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'),
+        'localTime'=>'%H:%M:%S',
+        'localDate'=>'%d.%m.%Y',
+        'localDateTime'=>'%a %d %b %Y %H:%M:%S %z',
       ),
     );
 
@@ -110,20 +116,21 @@
           return date('s',$timestamp);
         case '%T':
           return date('H:i:s',$timestamp);
-        case '%X': // TODO: Preferred time representation based on locale, without the date
-          return '????';
+        case '%X': // Preferred time representation based on locale, without the date
+          return strftime_polyfill($localeText[$locale]['localTime'],$timestamp,$locale);
         case '%z': // The time zone offset
           return date('O',$timestamp);
         case '%Z': // The time zone abbreviation
-          return date('e',$timestamp);
+          return date('T',$timestamp);
 
         // time and date stamps
 
-        case '%c': // TODO: Preferred date and time stamp based on locale
-        case '%x': // TODO: Preferred date representation based on locale, without the time
-          return '????';
-        case '%s': // TODO: Unix Epoch Time timestamp
-          return '????';
+        case '%c': // Preferred date and time stamp based on locale
+          return strftime_polyfill($localeText[$locale]['localDateTime'],$timestamp,$locale);
+        case '%x': // Preferred date representation based on locale, without the time
+          return strftime_polyfill($localeText[$locale]['localDate'],$timestamp,$locale);
+        case '%s': // Unix Epoch Time timestamp
+          return $timestamp;
         case '%D':
           return date('m/d/y',$timestamp);
         case '%F':
